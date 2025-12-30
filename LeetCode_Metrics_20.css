@@ -31,6 +31,24 @@ body{
     gap: 1rem;
 }
 
+/* #card-container{
+
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(2, 1fr);
+    row-gap: 1.5rem;
+    column-gap: 0.5rem;
+    
+    background-color: rgb(99, 43, 112);
+
+    padding: 1rem;
+
+    font-size: 13px;
+
+    border: solid rgb(38, 29, 29) 3px;
+    border-radius: 5px;
+} */
+
 #mainHeading{
 
     color:rgb(12, 12, 13);

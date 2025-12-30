@@ -1,3 +1,182 @@
+// document.addEventListener("DOMContentLoaded", function(){
+
+//     const searchButton = document.getElementById("search-button");
+//     const userNameInput = document.getElementById("inputTag");
+
+//     const statsContainer = document.getElementById("stats-container");
+
+//     const easyProgressCircle = document.getElementsByClassName("easy-item");
+//     const mediumProgressCircle = document.getElementsByClassName("medium-item");
+//     const hardProgressCircle = document.getElementsByClassName("hard-item");
+
+//     const easyLabel = document.getElementById("easy-Label");
+//     const mediumLabel = document.getElementById("medium-Label");
+//     const hardLabel = document.getElementById("hard-Label");
+
+//     const cardStatsContainer = document.getElementById("card-container");
+
+
+//     function validateUserName(userName){
+
+//         if (userName.trim() === ""){
+
+//             alert("Username can't be empty.");
+//             return false;
+//         }
+
+//         const regex = /^[a-zA-Z0-9_-]{1,15}$/;
+//         const isMatching = regex.test(userName);
+
+//         if (!isMatching){
+
+//             alert("Invalid username.");
+//         }
+
+//         return isMatching;
+//     }
+
+//     function updateProgress(solved, total, label, circle){
+
+//         const progressDegree = (solved / total) * 100;
+//         circle.style.setProperty("--progressDegree", `${progressDegree}%`);
+//         label.textContent = `${solved} / ${total}`;
+//     }
+
+//     function displayUserData(data){
+
+//         const totalQues = data.totalQuestions;
+//         const totalEasyQues = data.totalEasy;
+//         const totalMediumQues = data.totalMedium;
+//         const totalHardQues = data.totalHard;
+
+//         const solvedTotalQues = data.totalSolved;
+//         const solvedEasyQues = data.easySolved;
+//         const solvedMediumQues = data.mediumSolved;
+//         const solvedHardQues = data.hardSolved;
+
+//         updateProgress(solvedEasyQues, totalEasyQues, easyLabel, easyProgressCircle[0]);
+//         updateProgress(solvedMediumQues, totalMediumQues, mediumLabel, mediumProgressCircle[0]);
+//         updateProgress(solvedHardQues, totalHardQues, hardLabel, hardProgressCircle[0]);
+
+
+//         const cardsData = [
+//             {label: 'Overall Submissions: ', value: data.totalSolved}, 
+//             {label: 'Easy Submission: ', value: data.easySolved},
+//             {label: 'Medium Submission: ', value: data.mediumSolved},
+//             {label: 'Hard Submission: ', value: data.hardSolved},
+//             {label: 'Acceptance Rate: ', value: `${data.acceptanceRate}%`},
+//             {label: 'Contribution Points: ', value: data.contributionPoints}
+//         ];
+
+//         console.log("Card ka data: ", cardsData);
+
+//         cardStatsContainer.innerHTML = cardsData.map(data =>{
+
+//             return `
+//                     <div class = "cards">
+//                     <h1>${data.label}</h1>
+//                     <p>${data.value}</p>
+//                     </div>
+//                     `
+//         }).join("")
+//     }
+
+//     async function fetchUserDetails(userName){
+
+//         // const url = `https://leetcode-stats-api.herokuapp.com/${userName}}`; // Not working properly
+
+//         try{
+
+//             searchButton.textContent = "Searching...";
+//             searchButton.disabled = true;
+
+//             // const proxyUrl = 'https://cors-anywhere.herokuapp.com/';
+//             // const targetUrl = 'https://leetcode.com/graphql/';
+
+//             // const myHeaders = new Headers();
+//             // myHeaders.append("content-type", "application/json");
+
+//             // const graphql = JSON.stringify({
+//             //     query: `
+//             //     query userSessionProgress($userName: String!) {
+//             //       allQuestionsCount { difficulty count }
+//             //       matchedUser(userName: $userName) {
+//             //         submitStats {
+//             //           acSubmissionNum { difficulty count submissions }
+//             //           totalSubmissionsNum { difficulty count submissions }
+//             //         }
+//             //       }
+//             //     }
+//             // `,
+//             // variables: { userName }
+            
+//             // })
+            
+//             // const requestOptions = {
+                
+//             //     method: "POST",
+//             //     headers: myHeaders,
+//             //     body: graphql
+//             // }
+            
+//             // const response = await fetch(proxyUrl + targetUrl, requestOptions);
+
+//             const url = `https://leetcode-stats-api.herokuapp.com/${userName}`;
+//             const response = await fetch(url);
+            
+//             if (!response.ok){
+                
+//                 throw new Error("Unable to fetch the user details.");
+//             }
+
+//             const data = await response.json();
+//             console.log("User data: ", data);
+
+//             displayUserData(data);
+
+//         }catch(error){
+
+//             statsContainer.innerHTML = "<p>No data found.</P>";
+
+//         }finally{
+
+//             searchButton.textContent = "Search";
+//             searchButton.disabled = false;
+//         }
+//     }
+
+//     searchButton.addEventListener('click', function(){
+
+//         const userName = userNameInput.value;
+
+//         console.log("Logging username: ", userName);
+
+//         if (validateUserName(userName)){
+
+//             fetchUserDetails(userName);
+//         }
+//     });
+
+// });
+
+
+
+
+// // As jo hamri request jariha leetcode ka server per directly tho CORS ka error aatah tho uska liya ham ek dummy server banatah or hamari request ha vo ham demo server per send karanga fir ho aaga leetcode ka server per send karga request ko.
+
+// // https://cors-anywhere.herokuapp.com/corsdemo
+
+// // Can go to network see data format and go to JSON formatter and validater on browser so format it.
+
+
+
+
+
+
+
+
+
+
 document.addEventListener("DOMContentLoaded", function(){
 
     const searchButton = document.getElementById("search-button");
@@ -18,7 +197,7 @@ document.addEventListener("DOMContentLoaded", function(){
     function validateUserName(userName){
 
         if (userName.trim() === ""){
-            
+
             alert("Username can't be empty.");
             return false;
         }
@@ -45,7 +224,7 @@ document.addEventListener("DOMContentLoaded", function(){
 
             totalQuestions, totalEasy, totalMedium, totalHard,
             totalSolved, easySolved, mediumSolved, hardSolved,
-            acceptanceRate, contributionPoints
+            ranking, contributionPoint
         } = data;
 
         updateProgress(easySolved, totalEasy, easyLabel, easyProgressCircle);
@@ -57,8 +236,8 @@ document.addEventListener("DOMContentLoaded", function(){
             {label: 'Easy Submission:', value: easySolved},
             {label: 'Medium Submission:', value: mediumSolved},
             {label: 'Hard Submission:', value: hardSolved},
-            {label: 'Acceptance Rate:', value: `${acceptanceRate}%`},
-            {label: 'Contribution Points:', value: contributionPoints}
+            { label: 'Contribution Points:', value: contributionPoint },
+            { label: 'Global Ranking:', value: ranking }
         ];
 
         console.log("Card data: ", cardsData);
@@ -90,7 +269,8 @@ document.addEventListener("DOMContentLoaded", function(){
             searchButton.textContent = "Searching...";
             searchButton.disabled = true;
 
-            const url = `https://leetcode-stats-api.herokuapp.com/${encodeURIComponent(userName)}`;
+            const url = `https://leetcode-api-faisalshohag.vercel.app/${encodeURIComponent(userName)}`;
+
             const response = await fetch(url);
 
             if (!response.ok)
